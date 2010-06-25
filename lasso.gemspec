@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "lasso.gemspec",
      "lib/lasso.rb",
      "spec/lasso_spec.rb",
      "spec/spec.opts",
@@ -31,7 +32,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{Identity herding using OAuth}
+  s.summary = %q{Identity herding with OAuth}
   s.test_files = [
     "spec/lasso_spec.rb",
      "spec/spec_helper.rb"
