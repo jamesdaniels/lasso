@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "lasso"
-    gem.summary = %Q{Identity herding using OAuth}
+    gem.summary = %Q{Identity herding with OAuth}
     gem.description = %Q{OAuth 1/2 made easy for Rails!}
     gem.email = "james@marginleft.com"
     gem.homepage = "http://github.com/jamesdaniels/lasso"
