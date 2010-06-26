@@ -4,6 +4,92 @@
 
 Lasso makes it damn easy to add SSO to your Rails application. Just load in your configuration, add a couple associations, and you are set to hit the trail running, partner.
 
+== Gettings started
+
+I haven't made generators for anything but that's ok cause Lasso mostly works via decorators.
+
+Lasso creates OAuth tokens via nested attributes on whichever object you deem to be the owner of those keys (e.g, current_user, current_user.account, User.new) which makes it one-to-many and quite flexible.
+
+=== Schema
+
+You are going to want a model with a schema that at least looks like this, you can call it what you wish:
+
+  create_table :access_keys, :force => true do |t|
+    t.string   "token_a", "token_b", :limit => 999
+    t.string   "service", "type", :null => false
+    t.string   "owner_type"
+    t.integer  "owner_id"
+    t.datetime "created_at", "updated_at", :null => false
+  end
+
+=== Model
+
+Go ahead and add your provider details to the model, like so:
+
+  class AccessKey < ActiveRecord::Base
+    oauth do
+      provider '37signals' do
+        key    'YOUR_KEY_HERE'
+        secret 'YOUR_SECRET_HERE'
+        site   'https://launchpad.37signals.com'
+        authorize_path     '/authorization/new'
+        access_token_path  '/authorization/token'
+      end
+      provider 'LinkedIn' do
+        key    'YOUR_KEY_HERE'
+        secret 'YOUR_SECRET_HERE'
+        site   'https://api.linkedin.com'
+        authorize_path     '/uas/oauth/authorize'
+        access_token_path  '/uas/oauth/accessToken'
+        request_token_path '/uas/oauth/requestToken'
+      end
+    end
+  end
+
+=== Controller
+
+You are going to want a controller that is able to handle the requests:
+
+  class OauthController < ApplicationController
+    ssl_required :create
+    processes_oauth_transactions_for :access_keys, 
+                                     :through  => lambda { current_user }, 
+                                     :callback => lambda { oauth_callback_url }
+  end
+  
+  class AccessKeysController < ApplicationController
+    
+    def index
+      @access_keys = current_user.access_keys
+    end
+
+    def show
+      @access_key = current_user.access_keys.find(params[:id])
+    end
+
+    def delete
+      access_key = current_user.access_keys.find(params[:id])
+      access_key.destroy
+      redirect_to access_keys_path
+    end
+    
+  end
+
+=== Routes
+
+And maybe some routes:
+
+  map.resources :access_keys, :only => [:index, :show, :delete]
+  
+  map.oauth_authorize '/:service/oauth/start',    :controller => 'oauth', :action => 'new'
+  map.oauth_callback  '/:service/oauth/callback', :controller => 'oauth', :action => 'create', :protocol => 'https'
+
+=== Usage
+
+Now OAuth is as simple as adding a link:
+
+  <%= link_to 'Integrate your account with your 37signals account', oauth_authorize_path(:service => '37signals') %>
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
