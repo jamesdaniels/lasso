@@ -4,13 +4,23 @@ h2. Identity herding with OAuth
 
 Lasso makes it damn easy to add SSO to your Rails application. Just load in your configuration, add a couple associations, and you are set to hit the trail running, partner.
 
-h3. Gettings started
+h2. Flexibility
 
-I haven't made generators for anything but that's ok cause Lasso mostly works via decorators.
+Lasso works via decorators and attempts to have as few opinions about your setup as possible.
+
+* Can handle one-to-many associations with owners/tokens
+* Can handle multiple tokens from the same provider
+* Can handle any provider (OAuth 1 or 2) seamlessly by editing a simple configuration
+* Isn't hard coded to work with one authentication library
+* Works well with STI or multiple token classes/controllers
 
 Lasso creates OAuth tokens via nested attributes on whichever object you deem to be the owner of those keys (e.g, current_user, current_user.account, User.new) which makes it one-to-many and quite flexible.
 
-Feel free to skim this README in addition to checking out the "Lasso/Authlogic example application that I've built.":http://github.com/jamesdaniels/lasso-example
+h3. Gettings started
+
+I haven't made generators for anything, yet. Feel free to skim this README in addition to checking out the "Lasso/Authlogic example application that I've built.":http://github.com/jamesdaniels/lasso-example
+
+h2. Walk-through
 
 h3. Configuration
 
@@ -66,9 +76,19 @@ h3. Controller
 You are going to want a controller that is able to handle the requests:
 
   class OauthController < ApplicationController
-    processes_oauth_transactions_for :access_keys, 
-                                     :through  => lambda { current_user }, 
-                                     :callback => lambda { oauth_callback_url }
+    processes_oauth_transactions_for :access_keys,
+                                     :through  => lambda { current_user || User.new },
+                                     :callback => lambda { oauth_callback_url },
+                                     :conflict => :handle_existing_oauth,
+                                     :login    => :handle_oauth_login
+
+    def handle_oauth_login(user)
+      # TODO: Log in as the user
+    end
+
+    def handle_existing_oauth(user)
+      # TODO: Merge accounts or display an error
+    end
   end
 
 And a controller to show the user their AccessKeys:

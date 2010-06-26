@@ -7,19 +7,30 @@ module Lasso
       end
 
       def create
-        @oauth = type.new(:service => params[:service])
-        #@oauth = oauth_settings[:through].call.send(oauth_model).new(:service => params[:service])
-        parse_response
         @owner = oauth_settings[:through].bind(self).call
-        nested = {"#{oauth_model}_attributes" => [@oauth.attributes]}
-        if @owner.update_attributes(nested)
-          redirect_to send("#{oauth_model.to_s.singularize}_path", @owner.send(oauth_model).last)
+        @oauth = type.new(:service => params[:service], :owner => @owner)
+        parse_response
+        if @oauth.duplicate
+          if @owner.nil? || @owner.new_record?
+            send(oauth_settings[:login], @oauth.duplicate.owner)
+          elsif @owner == @oauth.duplicate.owner
+            @oauth.duplicate.destroy
+            save_the_oauth
+          else
+            send(oauth_settings[:conflict], @oauth.duplicate.owner)
+          end
         else
-          render :text => @owner.to_yaml
+          save_the_oauth
         end
       end
 
     protected
+    
+      def save_the_oauth
+        nested = {"#{oauth_model}_attributes" => [@oauth.attributes]}
+        @owner.update_attributes!(nested)
+        redirect_to send("#{oauth_model.to_s.singularize}_path", @owner.send(oauth_model).last)
+      end
 
       def type
         "OAuth#{version_one? && 'One' || 'Two'}#{oauth_model_constant}".constantize
