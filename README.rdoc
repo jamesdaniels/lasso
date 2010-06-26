@@ -10,6 +10,12 @@ I haven't made generators for anything but that's ok cause Lasso mostly works vi
 
 Lasso creates OAuth tokens via nested attributes on whichever object you deem to be the owner of those keys (e.g, current_user, current_user.account, User.new) which makes it one-to-many and quite flexible.
 
+=== Configuration
+
+Add this line to your environment.rb:
+
+  config.gem 'lasso'
+
 === Schema
 
 You are going to want a model with a schema that at least looks like this, you can call it what you wish:
