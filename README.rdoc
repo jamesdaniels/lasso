@@ -62,7 +62,9 @@ You are going to want a controller that is able to handle the requests:
                                      :through  => lambda { current_user }, 
                                      :callback => lambda { oauth_callback_url }
   end
-  
+
+And a controller to show the user their AccessKeys:
+
   class AccessKeysController < ApplicationController
     
     def index
