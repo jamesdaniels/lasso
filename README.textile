@@ -32,6 +32,7 @@ h3. Schema
 
 You are going to want a model with a schema that at least looks like this, you can call it what you wish:
 
+<pre>
   create_table :access_keys, :force => true do |t|
     t.string   "token_a", "token_b", :limit => 999
     t.string   "service", "type", :null => false
@@ -39,11 +40,13 @@ You are going to want a model with a schema that at least looks like this, you c
     t.integer  "owner_id"
     t.datetime "created_at", "updated_at", :null => false
   end
+</pre>
 
 h3. Model
 
 Go ahead and add your provider details to the model, like so:
 
+<pre>
   class AccessKey < ActiveRecord::Base
     oauth do
       provider '37signals' do
@@ -63,18 +66,22 @@ Go ahead and add your provider details to the model, like so:
       end
     end
   end
-  
+</pre>
+    
 You'll want to setup the association to your owner model too:
 
+<pre>
   class User < ActiveRecord::Base
     has_many :access_keys, :dependent => :destroy, :as => :owner
     accepts_nested_attributes_for :access_keys
   end
-
+</pre>
+  
 h3. Controller
 
 You are going to want a controller that is able to handle the requests:
 
+<pre>
   class OauthController < ApplicationController
     processes_oauth_transactions_for :access_keys,
                                      :through  => lambda { current_user || User.new },
@@ -90,9 +97,11 @@ You are going to want a controller that is able to handle the requests:
       # TODO: Merge accounts or display an error
     end
   end
+</pre>
 
 And a controller to show the user their AccessKeys:
 
+<pre>
   class AccessKeysController < ApplicationController
     
     def index
@@ -110,21 +119,26 @@ And a controller to show the user their AccessKeys:
     end
     
   end
+</pre>
 
 h3. Routes
 
 And maybe some routes:
 
+<pre>
   map.resources :access_keys, :only => [:index, :show, :destroy]
   
   map.oauth_authorize '/:service/oauth/start',    :controller => 'oauth', :action => 'new'
   map.oauth_callback  '/:service/oauth/callback', :controller => 'oauth', :action => 'create'
+</pre>
 
 h3. Usage
 
 Now OAuth is as simple as adding a link:
 
+<pre>
   <%= link_to 'Integrate your account with your 37signals account', oauth_authorize_path(:service => '37signals') %>
+</pre>
 
 h3. Note on Patches/Pull Requests
  
