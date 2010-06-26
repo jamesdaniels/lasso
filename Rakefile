@@ -6,11 +6,13 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "lasso"
     gem.summary = %Q{Identity herding with OAuth}
-    gem.description = %Q{OAuth 1/2 made easy for Rails!}
+    gem.description = %Q{Identity herding with OAuth}
     gem.email = "james@marginleft.com"
     gem.homepage = "http://github.com/jamesdaniels/lasso"
     gem.authors = ["James Daniels"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency "oauth2", ">= 0.0.10"
+    gem.add_dependency "oauth"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

@@ -1,6 +1,8 @@
-= lasso
+= Lasso
 
-Description goes here.
+== Identity herding with OAuth
+
+Lasso makes it damn easy to add SSO to your Rails application. Just load in your configuration, add a couple associations, and you are set to hit the trail running, partner.
 
 == Note on Patches/Pull Requests
  
