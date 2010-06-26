@@ -15,7 +15,7 @@ module Lasso
         if @owner.update_attributes(nested)
           redirect_to send("#{oauth_model.to_s.singularize}_path", @owner.send(oauth_model).last)
         else
-          render :text => @oauth.to_yaml
+          render :text => @owner.to_yaml
         end
       end
 
