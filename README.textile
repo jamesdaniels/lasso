@@ -154,19 +154,19 @@ Now OAuth is as simple as adding a link:
 Once authorized you can access the keys like so:
 
 <pre>
-	AccessKey.all
-	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
-	| id | token_a | token_b | service  | type              | owner_type | owner_id | created_at              | updated_at              |
-	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
-	| 7  | ...     |         | Facebook | OAuthTwoAccessKey | User       | 8        | 2010-11-12 21:15:08 UTC | 2010-11-12 21:15:08 UTC |
-	| 8  | ...     | ...     | LinkedIn | OAuthOneAccessKey | User       | 8        | 2010-11-12 21:17:39 UTC | 2010-11-12 21:17:39 UTC |
-	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+  AccessKey.all
+  +----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+  | id | token_a | token_b | service  | type              | owner_type | owner_id | created_at              | updated_at              |
+  +----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+  | 7  | ...     |         | Facebook | OAuthTwoAccessKey | User       | 8        | 2010-11-12 21:15:08 UTC | 2010-11-12 21:15:08 UTC |
+  | 8  | ...     | ...     | LinkedIn | OAuthOneAccessKey | User       | 8        | 2010-11-12 21:17:39 UTC | 2010-11-12 21:17:39 UTC |
+  +----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
 	
-	AccessKey.first.access.get('/me')
-	"{\"id\":\"5805079\",\"name\":\"James Daniels\",\"first_name\":\"James\",\"last_name\":\"Daniels\",\"link\":\"http:\\/\\/www.facebook.com\\/james.uriah\",\"about\":\"Rails\\/CSS\\/Javascript guru hailing from Portland, Maine.\\n\\nTechStars '09 baby!\",\"hometown\":{\"id\":\"108005632552931\",\"name\":\"Eastport, Maine\"}...
+  AccessKey.first.access.get('/me')
+  "{\"id\":\"5805079\",\"name\":\"James Daniels\",\"first_name\":\"James\",\"last_name\":\"Daniels\",\"link\":\"http:\\/\\/www.facebook.com\\/james.uriah\",\"about\":\"Rails\\/CSS\\/Javascript guru hailing from Portland, Maine.\\n\\nTechStars '09 baby!\",\"hometown\":{\"id\":\"108005632552931\",\"name\":\"Eastport, Maine\"}...
 
-	AccessKey.last.access.get('/v1/people/~').body
-	"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<person>\n  <first-name>James</first-name>\n  <last-name>Daniels</last-name>\n  <headline>Entrepreneur and Web Professional</headline>\n  <site-standard-profile-request>\n    <url>http://www.linkedin.com/profile?viewProfile=&amp;key=########&amp;authToken=###...
+  AccessKey.last.access.get('/v1/people/~').body
+  "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<person>\n  <first-name>James</first-name>\n  <last-name>Daniels</last-name>\n  <headline>Entrepreneur and Web Professional</headline>\n  <site-standard-profile-request>\n    <url>http://www.linkedin.com/profile?viewProfile=&amp;key=########&amp;authToken=###...
 </pre>
 
 h3. Note on Patches/Pull Requests
