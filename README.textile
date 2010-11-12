@@ -1,3 +1,5 @@
+!{float:right}http://www.jamesdaniels.net/b/lasso-logo.png!
+
 h1. Lasso
 
 h2. Identity herding with OAuth
