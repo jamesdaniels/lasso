@@ -21,11 +21,11 @@ Lasso creates OAuth tokens via nested attributes on whichever object you deem to
 
 Cases that Lasso gives you hooks for:
 
-# New token + no user logged in = Registration
-# New token + user is logged in = Identity claim
-# Existing token + no user logged in = Log in
-# Existing token + owner logged in = Refresh secret/refresh keys
-# Existing token + someone else logged in = Pass to conflict handler
+# New token + no user logged in = *Registration*
+# New token + user is logged in = *Identity claim*
+# Existing token + no user logged in = *Log in*
+# Existing token + _owner_ logged in = *Refresh secret/refresh keys*
+# Existing token + _someone else_ logged in = *Pass to conflict handler*
 
 h3. Gettings started
 
@@ -149,6 +149,24 @@ Now OAuth is as simple as adding a link:
 
 <pre>
   <%= link_to 'Integrate your account with your 37signals account', oauth_authorize_path(:service => '37signals') %>
+</pre>
+
+Once authorized you can access the keys like so:
+
+<pre>
+	AccessKey.all
+	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+	| id | token_a | token_b | service  | type              | owner_type | owner_id | created_at              | updated_at              |
+	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+	| 7  | ...     |         | Facebook | OAuthTwoAccessKey | User       | 8        | 2010-11-12 21:15:08 UTC | 2010-11-12 21:15:08 UTC |
+	| 8  | ...     | ...     | LinkedIn | OAuthOneAccessKey | User       | 8        | 2010-11-12 21:17:39 UTC | 2010-11-12 21:17:39 UTC |
+	+----+---------+---------+----------+-------------------+------------+----------+-------------------------+-------------------------+
+	
+	AccessKey.first.access.get('/me')
+	"{\"id\":\"5805079\",\"name\":\"James Daniels\",\"first_name\":\"James\",\"last_name\":\"Daniels\",\"link\":\"http:\\/\\/www.facebook.com\\/james.uriah\",\"about\":\"Rails\\/CSS\\/Javascript guru hailing from Portland, Maine.\\n\\nTechStars '09 baby!\",\"hometown\":{\"id\":\"108005632552931\",\"name\":\"Eastport, Maine\"}...
+
+	AccessKey.last.access.get('/v1/people/~').body
+	"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<person>\n  <first-name>James</first-name>\n  <last-name>Daniels</last-name>\n  <headline>Entrepreneur and Web Professional</headline>\n  <site-standard-profile-request>\n    <url>http://www.linkedin.com/profile?viewProfile=&amp;key=########&amp;authToken=###...
 </pre>
 
 h3. Note on Patches/Pull Requests
