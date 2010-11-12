@@ -57,7 +57,7 @@ module Lasso
 
       def redirect
         if version_one?
-          @request_token = @oauth.consumer.get_request_token(:oauth_callback => oauth_settings[:callback].bind(self).call)
+          @request_token = @oauth.client.get_request_token(:oauth_callback => oauth_settings[:callback].bind(self).call)
           session[:request_token] = @request_token
           redirect_to @request_token.authorize_url
         else

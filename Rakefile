@@ -10,9 +10,9 @@ begin
     gem.email = "james@marginleft.com"
     gem.homepage = "http://github.com/jamesdaniels/lasso"
     gem.authors = ["James Daniels"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_dependency "oauth2", ">= 0.0.10"
-    gem.add_dependency "oauth"
+    gem.add_development_dependency "rspec", "~> 1.2.9"
+    gem.add_dependency "oauth2", "~> 0.1.0"
+    gem.add_dependency "oauth", "~> 0.4.4"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
