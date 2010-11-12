@@ -13,10 +13,19 @@ Lasso works via decorators and attempts to have as few opinions about your setup
 * Can handle one-to-many associations with owners/tokens
 * Can handle multiple tokens from the same provider
 * Can handle any provider (OAuth 1 or 2) seamlessly by editing a simple configuration
+* Seamlessly handles the 6 permutations of authentication (see below)
 * Isn't hard coded to work with one authentication library
 * Works well with STI or multiple token classes/controllers
 
 Lasso creates OAuth tokens via nested attributes on whichever object you deem to be the owner of those keys (e.g, current_user, current_user.account, User.new) which makes it one-to-many and quite flexible.
+
+Cases that Lasso gives you hooks for:
+
+# New token + no user logged in = Registration
+# New token + user is logged in = Identity claim
+# Existing token + no user logged in = Log in
+# Existing token + owner logged in = Refresh secret/refresh keys
+# Existing token + someone else logged in = Pass to conflict handler
 
 h3. Gettings started
 
