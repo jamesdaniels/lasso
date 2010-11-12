@@ -13,7 +13,7 @@ Lasso works via decorators and attempts to have as few opinions about your setup
 * Can handle one-to-many associations with owners/tokens
 * Can handle multiple tokens from the same provider
 * Can handle any provider (OAuth 1 or 2) seamlessly by editing a simple configuration
-* Seamlessly handles the 6 permutations of authentication (see below)
+* Seamlessly handles the 5 permutations of authentication (see below)
 * Isn't hard coded to work with one authentication library
 * Works well with STI or multiple token classes/controllers
 
