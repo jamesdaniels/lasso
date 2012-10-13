@@ -8,7 +8,7 @@ def define_oauth_two(parent)
       validates_presence_of :access_token
   
       def client
-        @client ||= OAuth2::Client.new(config(:key), config(:secret), :site => config(:site), :authorize_path => config(:authorize_path), :type => 'web_server', :access_token_path => config(:access_token_path))
+        @client ||= OAuth2::Client.new(config(:key), config(:secret), :site => config(:site), :authorize_url => config(:authorize_path), :token_url => config(:access_token_path))
       end
   
       def access

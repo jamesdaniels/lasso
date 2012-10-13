@@ -50,7 +50,7 @@ module Lasso
           access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
           @oauth.attributes = {:oauth_token => access_token.params[:oauth_token], :oauth_token_secret => access_token.params[:oauth_token_secret]}
         else
-          access_token = @oauth.client.web_server.get_access_token(params[:code], :redirect_uri => oauth_settings[:callback].bind(self).call)
+          access_token = @oauth.client.auth_code.get_token(params[:code], :redirect_uri => oauth_settings[:callback].bind(self).call)
           @oauth.attributes = {:refresh_token => access_token.refresh_token, :access_token => access_token.token}
         end
       end
@@ -61,7 +61,7 @@ module Lasso
           session[:request_token] = @request_token
           redirect_to @request_token.authorize_url
         else
-          redirect_to @oauth.client.web_server.authorize_url(:redirect_uri => oauth_settings[:callback].bind(self).call)
+          redirect_to @oauth.client.auth_code.authorize_url(:redirect_uri => oauth_settings[:callback].bind(self).call)
         end
       end
     end
