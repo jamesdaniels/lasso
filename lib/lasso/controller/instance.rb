@@ -61,7 +61,7 @@ module Lasso
           session[:request_token] = @request_token
           redirect_to @request_token.authorize_url
         else
-          redirect_to @oauth.client.auth_code.authorize_url(:redirect_uri => oauth_settings[:callback].bind(self).call)
+          redirect_to @oauth.client.auth_code.authorize_url(:redirect_uri => oauth_settings[:callback].bind(self).call, :scope => oauth_model_constant.oauth_providers[params[:service]][:scopes])
         end
       end
     end
